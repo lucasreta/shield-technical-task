@@ -1,0 +1,46 @@
+# Node.js
+node_modules/
+dist/
+.env
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage reports
+coverage/
+lcov-report/
+lint-report.html
+
+# Prisma artifacts
+prisma/dev.db
+prisma/dev.db-journal
+.prisma/
+
+# VSCode & OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Testing
+test-results/
+jest-cache/
+jest-coverage/
+*.test.ts.snap
+
+# Build tools
+*.tsbuildinfo
+
+# Docker
+docker-compose.override.yml
+docker-volumes/
+
+# Optional: if you store docs but don't want them deployed
+# !docs/
+# docs/postman/ if you want to keep postman files but not other doc content
+
+# Optional: Ignore Postman environment files
+*.postman_environment.json
