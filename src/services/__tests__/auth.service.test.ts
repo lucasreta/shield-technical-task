@@ -20,8 +20,6 @@ jest.mock('@config/prisma', () => ({
 jest.mock('bcrypt');
 jest.mock('jsonwebtoken');
 
-const mockedAuth = jest.requireMock('@services/auth.service');
-
 const email = 'test@example.com';
 const password = 'password123';
 const hashedPassword = 'hashed_password';
