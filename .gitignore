@@ -37,10 +37,3 @@ jest-coverage/
 # Docker
 docker-compose.override.yml
 docker-volumes/
-
-# Optional: if you store docs but don't want them deployed
-# !docs/
-# docs/postman/ if you want to keep postman files but not other doc content
-
-# Optional: Ignore Postman environment files
-*.postman_environment.json

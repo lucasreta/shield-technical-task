@@ -1,189 +1,256 @@
 {
-  "info": {
-    "name": "Shield API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Auth - Sign Up",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "http://localhost:3000/signup",
-          "protocol": "http",
-          "host": [
-            "localhost:3000"
-          ],
-          "path": [
-            "signup"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
-        }
-      }
-    },
-    {
-      "name": "Auth - Sign In",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "http://localhost:3000/signin",
-          "protocol": "http",
-          "host": [
-            "localhost:3000"
-          ],
-          "path": [
-            "signin"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
-        }
-      }
-    },
-    {
-      "name": "Wallets - Get All",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "http://localhost:3000/wallets",
-          "protocol": "http",
-          "host": [
-            "localhost:3000"
-          ],
-          "path": [
-            "wallets"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Wallets - Create",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "http://localhost:3000/wallets",
-          "protocol": "http",
-          "host": [
-            "localhost:3000"
-          ],
-          "path": [
-            "wallets"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"tag\": \"Main\",\n  \"chain\": \"Ethereum\",\n  \"address\": \"0x123abc\"\n}"
-        }
-      }
-    },
-    {
-      "name": "Wallets - Get by ID",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "http://localhost:3000/wallets/:id",
-          "protocol": "http",
-          "host": [
-            "localhost:3000"
-          ],
-          "path": [
-            "wallets",
-            ":id"
-          ]
-        }
-      }
-    },
-    {
-      "name": "Wallets - Update by ID",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "http://localhost:3000/wallets/:id",
-          "protocol": "http",
-          "host": [
-            "localhost:3000"
-          ],
-          "path": [
-            "wallets",
-            ":id"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"tag\": \"Updated\",\n  \"chain\": \"Ethereum\",\n  \"address\": \"0x456def\"\n}"
-        }
-      }
-    },
-    {
-      "name": "Wallets - Delete by ID",
-      "request": {
-        "method": "DELETE",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          }
-        ],
-        "url": {
-          "raw": "http://localhost:3000/wallets/:id",
-          "protocol": "http",
-          "host": [
-            "localhost:3000"
-          ],
-          "path": [
-            "wallets",
-            ":id"
-          ]
-        }
-      }
-    }
-  ]
+	"info": {
+		"_postman_id": "8ba95da0-7036-466c-a94d-4dcef3eee189",
+		"name": "Shield API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10223779"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "/signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/signup",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/signin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const json = pm.response.json();\r",
+									"if (json.token) {\r",
+									"  pm.environment.set(\"TOKEN\", json.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/signin",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/signout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/signout",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"signout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wallets",
+			"item": [
+				{
+					"name": "/wallets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/wallets",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"wallets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/wallets/{id}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/wallets/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"wallets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "72dc0cf8-9b6a-43bd-b9ee-a9266e8c9fe1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/wallets",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tag\": \"Main\",\n  \"chain\": \"Ethereum\",\n  \"address\": \"0x123abc\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/wallets",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"wallets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/wallets",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"chain\": \"Ethereum\",\n  \"address\": \"0x456def\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/wallets/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"wallets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "18a145b3-809d-433d-adfd-d32ac1b1f535"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/wallets/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/wallets/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"wallets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "72dc0cf8-9b6a-43bd-b9ee-a9266e8c9fe1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
 }
