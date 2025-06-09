@@ -1,5 +1,27 @@
 import { AppError, UnauthorizedError, NotFoundError } from '../../utils/errors';
 
+describe('AppError', () => {
+  it('should set message and default statusCode', () => {
+    const error = new AppError('Something broke');
+    expect(error.message).toBe('Something broke');
+    expect(error.statusCode).toBe(500);
+  });
+
+  it('should set custom statusCode if provided', () => {
+    const error = new AppError('Custom error', 418);
+    expect(error.statusCode).toBe(418);
+  });
+});
+
+describe('UnauthorizedError', () => {
+  it('should extend AppError with statusCode 401', () => {
+    const error = new UnauthorizedError('Not allowed');
+    expect(error).toBeInstanceOf(AppError);
+    expect(error.message).toBe('Not allowed');
+    expect(error.statusCode).toBe(401);
+  });
+});
+
 describe('Custom Errors', () => {
   it('AppError has message and statusCode', () => {
     const err = new AppError('Generic failure', 500);

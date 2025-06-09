@@ -5,6 +5,7 @@ import walletRoutes from '@routes/wallet.routes';
 import { errorHandler } from '@middleware/error.middleware';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from '@config/swagger';
+import { AppError } from '@utils/errors';
 
 dotenv.config();
 
@@ -17,13 +18,13 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Routes
-app.use('/signin', authRoutes);
-app.use('/signout', authRoutes); // placeholder for future signout
+app.use('/', authRoutes);
 app.use('/wallets', walletRoutes);
 
 // 404 fallback
-app.use((_req, res) => {
-  res.status(404).json({ message: 'Route not found' });
+app.use((_req, _res, next) => {
+  const err = new AppError('Route not found', 404);
+  next(err);
 });
 
 // Error handler

@@ -22,3 +22,8 @@ model Wallet {
   chain   String
   address String @unique
 }
+
+model TokenBlacklist {
+  token     String @id
+  expiresAt DateTime
+}

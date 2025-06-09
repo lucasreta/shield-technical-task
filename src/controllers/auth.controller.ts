@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { signInService, signUpService } from '@services/auth.service';
+import { signInService, signOutService, signUpService } from '@services/auth.service';
 
 export async function signIn(req: Request, res: Response, next: NextFunction) {
   try {
@@ -14,6 +14,16 @@ export async function signUp(req: Request, res: Response, next: NextFunction) {
   try {
     const token = await signUpService(req.body.email, req.body.password);
     res.status(201).json({ token });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function signOut(req: Request, res: Response, next: NextFunction) {
+  try {
+    const token = req.headers.authorization!.split(' ')[1];
+    await signOutService(token);
+    res.status(200).json({ message: 'Successfully signed out' });
   } catch (err) {
     next(err);
   }

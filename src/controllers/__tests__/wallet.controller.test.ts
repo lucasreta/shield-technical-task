@@ -2,7 +2,9 @@ import request from 'supertest';
 import app from '../../app';
 import { prisma } from '@config/prisma';
 import jwt from 'jsonwebtoken';
+import * as authService from '@services/auth.service';
 
+jest.mock('@services/auth.service');
 jest.mock('@config/prisma', () => ({
   prisma: {
     wallet: {
@@ -11,6 +13,9 @@ jest.mock('@config/prisma', () => ({
       create: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
+    },
+    tokenBlacklist: {
+      findUnique: jest.fn(),
     },
   },
 }));
@@ -185,9 +190,28 @@ describe('Wallet Controller - Auth Middleware', () => {
   });
 });
 
-describe('Integration Testing - Route Not Found', () => {
+describe('Integration Testing', () => {
   it('returns 404 on unknown route', async () => {
     const res = await request(app).get('/unknown/route');
     expect(res.status).toBe(404);
+  });
+
+  it('should return 401 if token is blacklisted', async () => {
+    (authService.isTokenBlacklisted as jest.Mock).mockResolvedValue(true);
+    const res = await request(app)
+      .get('/wallets')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(res.status).toBe(401);
+    expect(res.body.message).toMatch(/Invalid token/i);
+  });
+
+  it('should return 401 if token has no userId', async () => {
+    const badToken = jwt.sign({ foo: 'bar' }, process.env.JWT_SECRET!);
+    const res = await request(app)
+      .get('/wallets')
+      .set('Authorization', `Bearer ${badToken}`);
+
+    expect(res.status).toBe(401);
   });
 });

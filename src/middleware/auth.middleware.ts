@@ -1,19 +1,25 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { AppError } from '@utils/errors';
+import { UnauthorizedError } from '@utils/errors';
+import { isTokenBlacklisted } from '@services/auth.service';
 
-export function authenticate(req: Request, _res: Response, next: NextFunction): void {
+export async function authenticate(req: Request, _res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    throw new AppError('No token provided', 401);
+    throw new UnauthorizedError('No token provided');
   }
 
   const token = authHeader.split(' ')[1];
   try {
+    const blacklisted = await isTokenBlacklisted(token);
+    if (blacklisted) {
+      throw new Error('Token has been revoked');
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET!);
 
     if (typeof decoded !== 'object' || !decoded.userId) {
-      throw new AppError('Invalid token payload', 401);
+      throw new Error('Invalid token payload');
     }
 
     req.user = {
@@ -23,6 +29,6 @@ export function authenticate(req: Request, _res: Response, next: NextFunction): 
 
     next();
   } catch {
-    throw new AppError('Invalid token', 401);
+    throw new UnauthorizedError('Invalid token');
   }
 }
