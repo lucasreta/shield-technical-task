@@ -6,14 +6,18 @@ import { errorHandler } from '@middleware/error.middleware';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from '@config/swagger';
 import { AppError } from '@utils/errors';
-
-dotenv.config();
+import { env } from '@config/environment';
+import { assignRequestId } from '@middleware/requestId.middleware';
+import { requestLogger } from '@middleware/logger.middleware';
 
 const app = express();
 app.use(express.json());
 
+app.use(assignRequestId);
+app.use(requestLogger);
+
 // Swagger UI
-if (process.env.NODE_ENV !== 'production') {
+if (env.NODE_ENV !== 'production') {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 

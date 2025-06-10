@@ -33,10 +33,6 @@ const mockWallet = {
   address: '0xabc',
 };
 
-beforeAll(() => {
-  process.env.JWT_SECRET = 'test-secret';
-});
-
 describe('Wallet Controller', () => {
   beforeEach(() => jest.clearAllMocks());
 

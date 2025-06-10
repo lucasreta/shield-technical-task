@@ -16,3 +16,4 @@ export const moduleNameMapper = {
   '^@utils/(.*)$': '<rootDir>/src/utils/$1',
   '^@validators/(.*)$': '<rootDir>/src/validators/$1'
 };
+export const setupFilesAfterEnv = ['<rootDir>/jest.setup.ts'];

@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { prisma } from '@config/prisma';
 import { AppError, UnauthorizedError } from '@utils/errors';
+import { env } from '@config/environment';
 
 export async function signInService(email: string, password: string) {
   const user = await prisma.user.findUnique({ where: { email } });
@@ -10,7 +11,7 @@ export async function signInService(email: string, password: string) {
     throw new UnauthorizedError('Invalid credentials');
   }
 
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
+  const token = jwt.sign({ userId: user.id }, env.JWT_SECRET, {
     expiresIn: '1h',
   });
   return token;

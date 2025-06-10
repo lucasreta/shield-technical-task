@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { prisma } from '@config/prisma';
 import * as authService from '@services/auth.service';
 import { AppError, UnauthorizedError } from '@utils/errors';
+import { env } from '@config/environment';
 
 jest.mock('@config/prisma', () => ({
   prisma: {
@@ -59,7 +60,7 @@ describe('Auth Service', () => {
       expect(token).toBe(mockToken);
       expect(jwt.sign).toHaveBeenCalledWith(
         { userId },
-        process.env.JWT_SECRET!,
+        env.JWT_SECRET,
         { expiresIn: '1h' }
       );
     });

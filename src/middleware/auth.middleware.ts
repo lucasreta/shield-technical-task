@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { UnauthorizedError } from '@utils/errors';
 import { isTokenBlacklisted } from '@services/auth.service';
+import { env } from '@config/environment';
 
 export async function authenticate(req: Request, _res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
@@ -16,7 +17,7 @@ export async function authenticate(req: Request, _res: Response, next: NextFunct
       throw new Error('Token has been revoked');
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded = jwt.verify(token, env.JWT_SECRET);
 
     if (typeof decoded !== 'object' || !decoded.userId) {
       throw new Error('Invalid token payload');

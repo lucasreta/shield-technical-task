@@ -21,14 +21,6 @@ describe('Auth Controller', () => {
       expect(res.body.token).toBe(token);
     });
 
-    it('returns JWT token on success', async () => {
-      (authService.signInService as jest.Mock).mockResolvedValue(token);
-      const res = await request(app).post('/signin').send({ email, password });
-
-      expect(res.status).toBe(200);
-      expect(res.body.token).toBe(token);
-    });
-
     it('should return 400 and formatted Zod errors for invalid signin input', async () => {
       const res = await request(app)
         .post('/signin')
