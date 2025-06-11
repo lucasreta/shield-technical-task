@@ -78,6 +78,28 @@ export const swaggerSpec = createDocument({
         },
       },
     },
+    '/signout': {
+      post: {
+        summary: 'Sign out user',
+        tags: ['Auth'],
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '200': {
+            description: 'Successfully signed out',
+            content: {
+              'application/json': {
+                schema: z
+                  .object({
+                    message: z.string().openapi({ example: 'Successfully signed out' }),
+                  })
+                  .openapi({ title: 'SignOutResponse' }),
+              },
+            },
+          },
+          '401': { description: 'Unauthorized or invalid token' },
+        },
+      },
+    },
     '/wallets': {
       get: {
         summary: 'List wallets',

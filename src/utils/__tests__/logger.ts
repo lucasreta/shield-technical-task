@@ -41,6 +41,7 @@ describe('logger (non-test mode)', () => {
 		console.warn = warnSpy;
 		console.error = errorSpy;
 
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
 		const { log: liveLog } = require('../logger');
 
 		// With meta
