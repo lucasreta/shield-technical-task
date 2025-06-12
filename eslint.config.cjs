@@ -1,11 +1,10 @@
-// eslint.config.js
-import js from '@eslint/js';
-import ts from '@typescript-eslint/eslint-plugin';
-import tseslint from 'typescript-eslint';
-import parser from '@typescript-eslint/parser';
-import prettier from 'eslint-config-prettier';
+const js = require('@eslint/js');
+const ts = require('@typescript-eslint/eslint-plugin');
+const tseslint = require('typescript-eslint');
+const parser = require('@typescript-eslint/parser');
+const prettier = require('eslint-config-prettier');
 
-export default [
+module.exports = [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   prettier,
